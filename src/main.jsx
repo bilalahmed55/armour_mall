@@ -14,6 +14,7 @@ import Pistols from './components/categories/Pistols.jsx';
 import ProductDetail from './components/ProductDetail.jsx';
 import store from './app/store.js';
 import {Provider} from 'react-redux'
+import Cart from './components/Cart.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       <Route path="about" element={<About />} />
       <Route path="services" element={<Services />} />
       <Route path="contact" element={<Contact />} />
+      <Route path="cart" element={<Cart />} />
       <Route path="categories/shotgun" element={<Shotgun />} />
       <Route path="categories/rifles" element={<Rifles />} />
       <Route path="categories/pistols" element={<Pistols />} />

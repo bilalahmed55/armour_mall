@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addCart } from "../features/CartSystem";
 
 const ProductCard = ({ product }) => {
+    const dispatch = useDispatch();
     return (
         <div className="max-w-xs rounded overflow-hidden shadow-lg bg-white dark:bg-gray-800">
             <img
@@ -12,9 +15,18 @@ const ProductCard = ({ product }) => {
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
                     {product.name}
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                <p
+                    className="text-sm text-gray-600 dark:text-gray-300 mt-2 h-12 overflow-hidden"
+                    style={{
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                    }}
+                >
                     {product.description}
                 </p>
+
                 <div className="flex justify-between items-center mt-4">
                     <span className="text-xl font-bold text-blue-700 dark:text-blue-400">
                         ${product.price}
@@ -47,7 +59,10 @@ const ProductCard = ({ product }) => {
                         </button>
                     </NavLink>
 
-                    <button className="bg-green-500 text-white p-2 rounded-lg text-sm w-24 hover:bg-green-600 transition">
+                    <button
+                        className="bg-green-500 text-white p-2 rounded-lg text-sm w-24 hover:bg-green-600 transition"
+                        onClick={() => dispatch(addCart(product))}
+                    >
                         Add to Cart
                     </button>
                 </div>
