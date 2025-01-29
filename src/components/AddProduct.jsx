@@ -1,33 +1,55 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useContext } from 'react';
+import { Products } from './ProductsContext';
 
 const AddProduct = () => {
-  const [product, setProduct] = useState({
-    title: '',
-    price: '',
-    description: '',
-    image: null,
-  });
+  const {products, setProducts} = useContext(Products)
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({
-      ...product,
-      [name]: value,
-    });
-  };
+  const [name, setName] = useState('');
+  const [imgUrl, setImgurl] = useState('');
+  const [desc, setDesc] = useState('');
+  const [price, setPrice] = useState('');
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setProduct({
-      ...product,
-      image: file,
-    });
-  };
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+
+    const newProduct = {
+      id: products.length + 1,
+      name: name,
+      image: imgUrl,
+      description: desc,
+      price: price,
+    }
+
+    setProducts([...products, newProduct])
+
+    setName("")
+    setImgurl("")
+    setDesc("")
+    setPrice("")
+    
+  }
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setProduct({
+  //     ...product,
+  //     [name]: value,
+  //   });
+  // };
+
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   setProduct({
+  //     ...product,
+  //     image: file,
+  //   });
+  // };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h2 className="text-2xl font-semibold text-white text-center mb-6 mt-10">Add a New Product</h2>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
         {/* Product Title */}
         <div>
           <label htmlFor="title" className="block text-gray-700 dark:text-gray-300 text-left">Product Title</label>
@@ -35,8 +57,8 @@ const AddProduct = () => {
             type="text"
             id="title"
             name="title"
-            value={product.title}
-            onChange={handleChange}
+            
+            onChange={(e)=>{setName(e.target.value)}}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           />
@@ -49,8 +71,8 @@ const AddProduct = () => {
             type="number"
             id="price"
             name="price"
-            value={product.price}
-            onChange={handleChange}
+            value={products.price}
+            onChange={(e)=>{setPrice(e.target.value)}}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           />
@@ -62,8 +84,8 @@ const AddProduct = () => {
           <textarea
             id="description"
             name="description"
-            value={product.description}
-            onChange={handleChange}
+            value={products.description}
+            onChange={(e)=>{setDesc(e.target.value)}}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             rows="4"
             required
@@ -74,11 +96,11 @@ const AddProduct = () => {
         <div>
           <label htmlFor="image" className="block text-gray-700 dark:text-gray-300 text-left">Product Image</label>
           <input
-            type="file"
+            type="url"
             id="image"
             name="image"
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={(e)=>{setImgurl(e.target.value)}}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           />

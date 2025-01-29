@@ -51,7 +51,7 @@ const ProductCard = ({ product }) => {
                 <div className="flex justify-between mt-4">
                     <NavLink
                         to={`/product/${product.id}`}
-                        state={{ product }} // Passing product data using the state
+                        state={{ product }}
                         className="inline-block"
                     >
                         <button className="bg-blue-500 text-white p-2 rounded-lg text-sm w-24 hover:bg-blue-600 transition">
