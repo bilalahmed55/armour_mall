@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import Rating from '@mui/material/Rating';
 
 const ProductDetail = () => {
   const location = useLocation();
@@ -7,16 +8,26 @@ const ProductDetail = () => {
 
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
+  const [newRating, setNewRating] = useState(2)
 
   const handleReviewChange = (e) => {
     setNewReview(e.target.value);
   };
-  
+
+  const hangleRatingChange = (event, newValue) => {
+    setNewRating(newValue);
+  }
+
   const handleReviewSubmit = (e) => {
     e.preventDefault();
     if (newReview) {
-      setReviews([...reviews, newReview]);
+      const newReviews = {
+        text: newReview,
+        rating: newRating,
+      };
+      setReviews([...reviews, newReviews]);
       setNewReview("");
+      setNewRating(2);
     }
   };
 
@@ -43,7 +54,11 @@ const ProductDetail = () => {
                 {`$${product.price}`}
               </span>
               <span className="text-lg font-semibold text-yellow-500">
-                ⭐⭐⭐⭐⭐ {/* Placeholder for dynamic rating */}
+                <Rating
+                  name="simple-controlled"
+                  value={newRating}
+                  onChange={hangleRatingChange}
+                />
               </span>
             </div>
           </div>
@@ -76,8 +91,9 @@ const ProductDetail = () => {
           <div className="space-y-4 max-h-96 overflow-y-auto p-4 border border-gray-200 rounded-lg dark:border-gray-600">
             {reviews.length > 0 ? (
               reviews.map((review, index) => (
-                <div key={index} className="p-4 border border-gray-200 rounded-lg dark:border-gray-600">
-                  <p className="text-gray-700 dark:text-gray-300">{review}</p>
+                <div key={index} className="p-4 flex gap-4 border border-gray-200 rounded-lg dark:border-gray-600">
+                  <p className="text-gray-700 dark:text-gray-300">{review.text}</p>
+                  <Rating value={review.rating} readOnly/>
                 </div>
               ))
             ) : (

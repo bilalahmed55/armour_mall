@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useContext } from 'react';
 import { Products } from './ProductsContext';
+import { useNavigate } from "react-router-dom"
 
 const AddProduct = () => {
+  const navigate = useNavigate()
   const {products, setProducts} = useContext(Products)
 
   const [name, setName] = useState('');
@@ -28,23 +30,8 @@ const AddProduct = () => {
     setDesc("")
     setPrice("")
     
+    navigate('/home')
   }
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setProduct({
-  //     ...product,
-  //     [name]: value,
-  //   });
-  // };
-
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   setProduct({
-  //     ...product,
-  //     image: file,
-  //   });
-  // };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
