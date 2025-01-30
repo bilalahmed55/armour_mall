@@ -8,18 +8,20 @@ import AddProduct from './components/AddProduct.jsx';
 import About from './components/About.jsx';
 import Services from './components/Services.jsx';
 import Contact from './components/Contact.jsx';
-import Shotgun from './components/categories/Shotgun.jsx';  // Import category components
+import Shotgun from './components/categories/Shotgun.jsx';
 import Rifles from './components/categories/Rifles.jsx';
 import Pistols from './components/categories/Pistols.jsx';
 import ProductDetail from './components/ProductDetail.jsx';
 import store from './app/store.js';
 import {Provider} from 'react-redux'
 import Cart from './components/Cart.jsx';
+import Login from './components/Login.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="home" element={<Home />} />
+      <Route path="login" element={<Login />} />
       <Route path="addproduct" element={<AddProduct />} />
       <Route path="about" element={<About />} />
       <Route path="services" element={<Services />} />
