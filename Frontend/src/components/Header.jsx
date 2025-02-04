@@ -1,6 +1,16 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
+
   return (
     <>
       <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
@@ -19,14 +29,33 @@ const Header = () => {
             </span>
           </Link>
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <Link to={"/login"}>
+            {isAuthenticated ? (
               <button
-                type="button"
+                onClick={handleLogout}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Login
+                Logout
               </button>
-            </Link>
+            ) : (
+              <>
+                <Link to={"/login"}>
+                  <button
+                    type="button"
+                    className="text-white mr-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Login
+                  </button>
+                </Link>
+                <Link to={"/signup"}>
+                  <button
+                    type="button"
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    SignUp
+                  </button>
+                </Link>
+              </>
+            )}
             <button
               data-collapse-toggle="navbar-sticky"
               type="button"

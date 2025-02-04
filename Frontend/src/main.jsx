@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
@@ -13,32 +14,66 @@ import Rifles from './components/categories/Rifles.jsx';
 import Pistols from './components/categories/Pistols.jsx';
 import ProductDetail from './components/ProductDetail.jsx';
 import store from './app/store.js';
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux';
 import Cart from './components/Cart.jsx';
 import Login from './components/Login.jsx';
+import SIgnup from './components/SIgnup.jsx';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="home" element={<Home />} />
+      <Route path="home" element={
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+      } />
       <Route path="login" element={<Login />} />
-      <Route path="addproduct" element={<AddProduct />} />
+      <Route path="signup" element={<SIgnup />} />
+      <Route path="addproduct" element={
+        <ProtectedRoute>
+          <AddProduct />
+        </ProtectedRoute>
+      } />
       <Route path="about" element={<About />} />
       <Route path="services" element={<Services />} />
       <Route path="contact" element={<Contact />} />
-      <Route path="cart" element={<Cart />} />
-      <Route path="categories/shotgun" element={<Shotgun />} />
-      <Route path="categories/rifles" element={<Rifles />} />
-      <Route path="categories/pistols" element={<Pistols />} />
-      <Route path="product/:id" element={<ProductDetail />} />
+      <Route path="cart" element={
+        <ProtectedRoute>
+          <Cart />
+        </ProtectedRoute>
+      } />
+      <Route path="categories/shotgun" element={
+        <ProtectedRoute>
+          <Shotgun />
+        </ProtectedRoute>
+      } />
+      <Route path="categories/rifles" element={
+        <ProtectedRoute>
+          <Rifles />
+        </ProtectedRoute>
+      } />
+      <Route path="categories/pistols" element={
+        <ProtectedRoute>
+          <Pistols />
+        </ProtectedRoute>
+      } />
+      <Route path="product/:id" element={
+        <ProtectedRoute>
+          <ProductDetail />
+        </ProtectedRoute>
+      } />
     </Route>
   )
 );
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store={store}>
-    <RouterProvider router={router} />
-    </Provider>
+    <AuthProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </AuthProvider>
   </StrictMode>
 );
