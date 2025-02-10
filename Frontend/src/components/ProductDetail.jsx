@@ -4,7 +4,7 @@ import Rating from '@mui/material/Rating';
 
 const ProductDetail = () => {
   const location = useLocation();
-  const product = location.state?.product; // Safely access product
+  const product = location.state?.product;
 
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");

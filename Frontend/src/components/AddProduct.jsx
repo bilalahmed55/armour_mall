@@ -1,37 +1,41 @@
-import { useState } from 'react';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Products } from './ProductsContext';
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const AddProduct = () => {
-  const navigate = useNavigate()
-  const {products, setProducts} = useContext(Products)
+  const navigate = useNavigate();
+  const { products, setProducts } = useContext(Products);
 
   const [name, setName] = useState('');
   const [imgUrl, setImgurl] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newProduct = {
-      id: products.length + 1,
       name: name,
       image: imgUrl,
       description: desc,
       price: price,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8000/api/products/add', newProduct);
+      if (response.data.success) {
+        setProducts([...products, response.data.product]);
+        setName("");
+        setImgurl("");
+        setDesc("");
+        setPrice("");
+        navigate('/home');
+      }
+    } catch (error) {
+      console.error("There was an error adding the product!", error);
     }
-
-    setProducts([...products, newProduct])
-
-    setName("")
-    setImgurl("")
-    setDesc("")
-    setPrice("")
-    
-    navigate('/home')
-  }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -44,13 +48,11 @@ const AddProduct = () => {
             type="text"
             id="title"
             name="title"
-            
-            onChange={(e)=>{setName(e.target.value)}}
+            onChange={(e) => { setName(e.target.value) }}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           />
         </div>
-
         {/* Product Price */}
         <div>
           <label htmlFor="price" className="block text-gray-700 dark:text-gray-300 text-left">Product Price</label>
@@ -58,27 +60,23 @@ const AddProduct = () => {
             type="number"
             id="price"
             name="price"
-            value={products.price}
-            onChange={(e)=>{setPrice(e.target.value)}}
+            onChange={(e) => { setPrice(e.target.value) }}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           />
         </div>
-
         {/* Product Description */}
         <div>
           <label htmlFor="description" className="block text-gray-700 dark:text-gray-300 text-left">Product Description</label>
           <textarea
             id="description"
             name="description"
-            value={products.description}
-            onChange={(e)=>{setDesc(e.target.value)}}
+            onChange={(e) => { setDesc(e.target.value) }}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             rows="4"
             required
           />
         </div>
-
         {/* Product Image */}
         <div>
           <label htmlFor="image" className="block text-gray-700 dark:text-gray-300 text-left">Product Image</label>
@@ -87,12 +85,11 @@ const AddProduct = () => {
             id="image"
             name="image"
             accept="image/*"
-            onChange={(e)=>{setImgurl(e.target.value)}}
+            onChange={(e) => { setImgurl(e.target.value) }}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           />
         </div>
-
         {/* Submit Button */}
         <div className="text-center">
           <button
