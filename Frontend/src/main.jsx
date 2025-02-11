@@ -3,7 +3,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
-import { RouterProvider, createBrowserRouter, Route, createRoutesFromElements } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, Route, createRoutesFromElements, Navigate } from 'react-router-dom';
 import Home from './components/Home.jsx';
 import AddProduct from './components/AddProduct.jsx';
 import About from './components/About.jsx';
@@ -23,47 +23,50 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route path="home" element={
-        <ProtectedRoute>
-          <Home />
-        </ProtectedRoute>
-      } />
-      <Route path="login" element={<Login />} />
-      <Route path="signup" element={<SIgnup />} />
-      <Route path="addproduct" element={
-        <ProtectedRoute>
-          <AddProduct />
-        </ProtectedRoute>
-      } />
-      <Route path="about" element={<About />} />
-      <Route path="services" element={<Services />} />
-      <Route path="contact" element={<Contact />} />
-      <Route path="cart" element={
-        <ProtectedRoute>
-          <Cart />
-        </ProtectedRoute>
-      } />
-      <Route path="categories/shotgun" element={
-        <ProtectedRoute>
-          <Shotgun />
-        </ProtectedRoute>
-      } />
-      <Route path="categories/rifles" element={
-        <ProtectedRoute>
-          <Rifles />
-        </ProtectedRoute>
-      } />
-      <Route path="categories/pistols" element={
-        <ProtectedRoute>
-          <Pistols />
-        </ProtectedRoute>
-      } />
-      <Route path="product/:id" element={
-        <ProtectedRoute>
-          <ProductDetail />
-        </ProtectedRoute>
-      } />
+    <Route>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route element={<App />}>
+        <Route path="home" element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        } />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<SIgnup />} />
+        <Route path="addproduct" element={
+          <ProtectedRoute>
+            <AddProduct />
+          </ProtectedRoute>
+        } />
+        <Route path="about" element={<About />} />
+        <Route path="services" element={<Services />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="cart" element={
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        } />
+        <Route path="categories/shotgun" element={
+          <ProtectedRoute>
+            <Shotgun />
+          </ProtectedRoute>
+        } />
+        <Route path="categories/rifles" element={
+          <ProtectedRoute>
+            <Rifles />
+          </ProtectedRoute>
+        } />
+        <Route path="categories/pistols" element={
+          <ProtectedRoute>
+            <Pistols />
+          </ProtectedRoute>
+        } />
+        <Route path="product/:id" element={
+          <ProtectedRoute>
+            <ProductDetail />
+          </ProtectedRoute>
+        } />
+      </Route>
     </Route>
   )
 );

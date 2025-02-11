@@ -20,7 +20,7 @@ const Cart = () => {
                         </div>
                         <div className="flex items-center space-x-4">
                             <button onClick={() => dispatch(decreaseQuantity({ id: item.id }))} className="bg-gray-200 p-2 rounded">-</button>
-                            <span>{item.quantity}</span>
+                            <span className="text-xl font-semibold text-white">{item.quantity}</span>
                             <button onClick={() => dispatch(increaseQuantity({ id: item.id }))} className="bg-gray-200 p-2 rounded">+</button>
                             <button onClick={() => dispatch(removeCart({ id: item.id }))} className="bg-red-500 text-white p-2 rounded">Delete</button>
                         </div>
