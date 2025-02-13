@@ -17,9 +17,13 @@ function Login() {
         setError("");
 
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/login', formData);
+            const response = await axios.post('http://localhost:8000/api/v1/login', {
+                email: formData.email,
+                password: formData.password,
+            });
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('email', formData.email);
                 setIsAuthenticated(true);
                 navigate("/home");
             } else {
@@ -45,22 +49,22 @@ function Login() {
                 <form className="w-full" onSubmit={handleSubmit}>
                     <div className='mb-4'>
                         <label className='text-white block mb-2'>Email</label>
-                        <input 
-                            type='email' 
+                        <input
+                            type='email'
                             name='email'
                             value={formData.email}
                             onChange={handleChange}
-                            className='w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                            className='w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
                         />
                     </div>
                     <div className='mb-6'>
                         <label className='text-white block mb-2'>Password</label>
-                        <input 
-                            type='password' 
+                        <input
+                            type='password'
                             name='password'
                             value={formData.password}
                             onChange={handleChange}
-                            className='w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500' 
+                            className='w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
                         />
                     </div>
                     <button className='w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300'>Login</button>

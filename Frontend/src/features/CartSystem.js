@@ -10,23 +10,46 @@ const CartSystem = createSlice({
     initialState,
     reducers: {
         addCart: (state, action) => {
-            const existingItem = state.cart.find(item => item.id === action.payload.id);
+            const existingItem = state.cart.find(item =>
+                item.id === action.payload.id &&
+                item.name === action.payload.name
+            );
+
             if (existingItem) {
                 existingItem.quantity += 1;
+                existingItem.totalPrice = existingItem.price * existingItem.quantity;
             } else {
-                state.cart.push({ ...action.payload, quantity: 1 });
+                state.cart.push({
+                    ...action.payload,
+                    quantity: 1,
+                    totalPrice: action.payload.price
+                });
             }
         },
         removeCart: (state, action) => {
-            state.cart = state.cart.filter(item => item.id !== action.payload.id);
+            state.cart = state.cart.filter(item =>
+                !(item.id === action.payload.id && item.name === action.payload.name)
+            );
         },
         increaseQuantity: (state, action) => {
-            const item = state.cart.find(item => item.id === action.payload.id);
-            if (item) item.quantity += 1;
+            const item = state.cart.find(item =>
+                item.id === action.payload.id &&
+                item.name === action.payload.name
+            );
+            if (item) {
+                item.quantity += 1;
+                item.totalPrice = item.price * item.quantity;
+            }
         },
         decreaseQuantity: (state, action) => {
-            const item = state.cart.find(item => item.id === action.payload.id);
-            if (item && item.quantity > 1) item.quantity -= 1;
+            const item = state.cart.find(item =>
+                item.id === action.payload.id &&
+                item.name === action.payload.name
+            );
+            if (item && item.quantity > 1) {
+                item.quantity -= 1;
+                item.totalPrice = item.price * item.quantity;
+            }
         },
     },
 });

@@ -13,7 +13,6 @@ const ProductsContext = ({ children }) => {
         const response = await axios.get('http://localhost:8000/api/products');
         if (response.data.success) {
           setProducts(response.data.products);
-          console.log(products)
         }
       } catch (error) {
         console.error("Error fetching products", error);
