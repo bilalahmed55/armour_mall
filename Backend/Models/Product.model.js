@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['rifles', 'shotguns', 'pistols']
+        enum: ['Rifles', 'Shotguns', 'Pistols']
     }
 }, {
     timestamps: true
