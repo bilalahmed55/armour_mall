@@ -52,7 +52,7 @@ const productSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true
-    }
+    },
 })
 
 export const Product = mongoose.model("Product", productSchema)
