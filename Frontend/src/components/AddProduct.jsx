@@ -13,6 +13,7 @@ const AddProduct = () => {
   const [imgUrl, setImgurl] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
+  const [category, setCategory] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +24,7 @@ const AddProduct = () => {
       image: imgUrl,
       description: desc,
       price: price,
+      category: category
     };
 
     try {
@@ -33,6 +35,7 @@ const AddProduct = () => {
         setImgurl("");
         setDesc("");
         setPrice("");
+        setCategory("");
 
         // Wait for 3 seconds before navigating
         setTimeout(() => {
@@ -74,18 +77,25 @@ const AddProduct = () => {
             required
           />
         </div>
-        {/* Product Description */}
+
+        {/* Product Category */}
         <div>
-          <label htmlFor="description" className="block text-gray-700 dark:text-gray-300 text-left">Product Description</label>
-          <textarea
-            id="description"
-            name="description"
-            onChange={(e) => { setDesc(e.target.value) }}
+          <label htmlFor="category" className="block text-gray-700 dark:text-gray-300 text-left">
+            Product Category
+          </label>
+          <select
+            id="category"
+            name="category"
+            onChange={(e) => setCategory(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
-            rows="4"
             required
-          />
+          >
+            <option value="Rifles">Rifles</option>
+            <option value="Shotguns">Shotguns</option>
+            <option value="Pistols">Pistols</option>
+          </select>
         </div>
+
         {/* Product Image */}
         <div>
           <label htmlFor="image" className="block text-gray-700 dark:text-gray-300 text-left">Product Image</label>
@@ -96,6 +106,18 @@ const AddProduct = () => {
             accept="image/*"
             onChange={(e) => { setImgurl(e.target.value) }}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            required
+          />
+        </div>
+        {/* Product Description */}
+        <div>
+          <label htmlFor="description" className="block text-gray-700 dark:text-gray-300 text-left">Product Description</label>
+          <textarea
+            id="description"
+            name="description"
+            onChange={(e) => { setDesc(e.target.value) }}
+            className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            rows="4"
             required
           />
         </div>
