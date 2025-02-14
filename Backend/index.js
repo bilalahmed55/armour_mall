@@ -9,17 +9,20 @@ import ProductRouter from './Routes/ProductRouter.js'
 const app = express();
 dotenv.config();
 
+// CORS and middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.get("/", (req,res)=>{
-    res.send("Api is running")
-})
-app.use("/api/v1/", AuthRouter)
-app.use("/api/products", ProductRouter)
+app.use(express.json());
 
-response();
-const PORT = process.env.PORT;
-app.listen(process.env.PORT, () => {
+// Mount routes
+app.use('/api/v1/auth', AuthRouter);
+app.use('/api/products', ProductRouter);  // Make sure this route is mounted
+
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-})
+});
+
+export default app;
 

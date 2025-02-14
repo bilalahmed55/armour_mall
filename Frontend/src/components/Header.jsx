@@ -229,38 +229,27 @@ const Header = () => {
                 </NavLink>
               </li>
               <li className="relative group">
-                <button
-                  className="text-gray-900 py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
-                  aria-haspopup="true"
-                >
-                  Categories
-                </button>
-                <ul className="absolute left-0 hidden group-hover:block bg-gray-800 dark:bg-gray-900 text-white rounded-md mt-1 w-40">
-                  <li>
-                    <NavLink
-                      to="/categories/shotgun"
-                      className="block py-2 px-4 hover:bg-blue-700"
-                    >
-                      Shotguns
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/categories/rifles"
-                      className="block py-2 px-4 hover:bg-blue-700"
-                    >
-                      Rifles
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/categories/pistols"
-                      className="block py-2 px-4 hover:bg-blue-700"
-                    >
-                      Pistols
-                    </NavLink>
-                  </li>
-                </ul>
+                <button className="text-white">Categories</button>
+                <div className="absolute hidden group-hover:block w-48 bg-gray-800">
+                  <Link 
+                    to="/categories/rifles" 
+                    className="block px-4 py-2 text-white hover:bg-gray-700"
+                  >
+                    Rifles
+                  </Link>
+                  <Link 
+                    to="/categories/shotguns" 
+                    className="block px-4 py-2 text-white hover:bg-gray-700"
+                  >
+                    Shotguns
+                  </Link>
+                  <Link 
+                    to="/categories/pistols" 
+                    className="block px-4 py-2 text-white hover:bg-gray-700"
+                  >
+                    Pistols
+                  </Link>
+                </div>
               </li>
             </ul>
           </div>

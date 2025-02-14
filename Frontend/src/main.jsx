@@ -20,6 +20,7 @@ import Login from './components/Login.jsx';
 import SIgnup from './components/SIgnup.jsx';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import CategoryProducts from './components/categories/CategoryProducts';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,19 +47,9 @@ const router = createBrowserRouter(
             <Cart />
           </ProtectedRoute>
         } />
-        <Route path="categories/shotgun" element={
+        <Route path="categories/:category" element={
           <ProtectedRoute>
-            <Shotgun />
-          </ProtectedRoute>
-        } />
-        <Route path="categories/rifles" element={
-          <ProtectedRoute>
-            <Rifles />
-          </ProtectedRoute>
-        } />
-        <Route path="categories/pistols" element={
-          <ProtectedRoute>
-            <Pistols />
+            <CategoryProducts />
           </ProtectedRoute>
         } />
         <Route path="product/:id" element={
