@@ -86,7 +86,7 @@ const AddProduct = () => {
           <select
             id="category"
             name="category"
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => setCategory(e.target.value.toLowerCase())}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           >

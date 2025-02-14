@@ -3,11 +3,56 @@ import { Product } from '../Models/Product.model.js';
 export const addProduct = async (req, res) => {
     try {
         const { name, image, description, price, category } = req.body;
-        const newProduct = new Product({ name, image, description, price, category });
+
+        // Validate required fields
+        if (!name || !image || !description || !price || !category) {
+            return res.status(400).json({
+                success: false,
+                message: "All fields are required"
+            });
+        }
+
+        // Convert price to number if it's a string
+        const numericPrice = Number(price);
+        if (isNaN(numericPrice)) {
+            return res.status(400).json({
+                success: false,
+                message: "Price must be a valid number"
+            });
+        }
+
+        const newProduct = new Product({
+            name,
+            image,
+            description,
+            price: numericPrice,
+            category
+        });
+
         await newProduct.save();
-        res.status(201).json({ message: "Product added successfully", success: true, product: newProduct });
+
+        res.status(201).json({
+            success: true,
+            message: "Product added successfully",
+            product: newProduct
+        });
     } catch (error) {
-        res.status(500).json({ message: "Internal server error", success: false });
+        console.error('Error in addProduct:', error);
+
+        // Check for validation errors
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                success: false,
+                message: "Validation Error",
+                error: Object.values(error.errors).map(err => err.message)
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: "Error adding product",
+            error: error.message
+        });
     }
 };
 
