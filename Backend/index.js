@@ -15,6 +15,9 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 // Mount routes
+app.get('/', (req,res)=>{
+    res.send("API is running")
+})
 app.use('/api/v1/auth', AuthRouter);
 app.use('/api/products', ProductRouter);  // Make sure this route is mounted
 
