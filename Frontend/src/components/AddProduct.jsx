@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { Products } from './ProductsContext';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const AddProduct = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8000/api/products/add', newProduct);
+      const response = await axios.post(`${API_BASE_URL}/api/products/add`, newProduct);
       if (response.data.success) {
         setProducts([...products, response.data.product]);
         setName("");
@@ -104,8 +105,8 @@ const AddProduct = () => {
             type="submit"
             disabled={isLoading}
             className={`${isLoading
-                ? 'bg-gray-500 cursor-not-allowed'
-                : 'bg-blue-500 hover:bg-blue-600'
+              ? 'bg-gray-500 cursor-not-allowed'
+              : 'bg-blue-500 hover:bg-blue-600'
               } text-white px-6 py-3 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300 flex items-center justify-center space-x-2 w-full sm:w-auto mx-auto`}
           >
             {isLoading ? (

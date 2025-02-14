@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 function SIgnup() {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ function SIgnup() {
         setError("");
 
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/signup', formData);
+            const response = await axios.post(`${API_BASE_URL}/api/v1/signup`, formData);
             if (response.data.success) {
                 navigate("/login");
             } else {
@@ -77,7 +78,7 @@ function SIgnup() {
                             required
                         />
                     </div>
-                    <button 
+                    <button
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
                     >

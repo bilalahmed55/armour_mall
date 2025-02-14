@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useEffect } from "react";
+import { API_BASE_URL } from '../config/api';
 import axios from 'axios';
 
 export const Products = createContext();
@@ -10,7 +11,7 @@ const ProductsContext = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/products');
+        const response = await axios.get(`${API_BASE_URL}/api/products`);
         if (response.data.success) {
           setProducts(response.data.products);
         }
