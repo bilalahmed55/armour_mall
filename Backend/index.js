@@ -11,6 +11,9 @@ dotenv.config();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.get("/", (req,res)=>{
+    res.send("Api is running")
+})
 app.use("/api/v1/", AuthRouter)
 app.use("/api/products", ProductRouter)
 
