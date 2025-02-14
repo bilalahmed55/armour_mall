@@ -22,7 +22,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send("API is running")
 })
-app.use('/api/v1/auth', AuthRouter);
+app.use('/api/v1', AuthRouter);
 app.use('/api/products', ProductRouter);  // Make sure this route is mounted
 
 const PORT = process.env.PORT || 8000;
