@@ -9,8 +9,7 @@ const ProductsContext = ({ children }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    // const fetchProducts = 
-    async () => {
+    const fetchProducts = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/products`);
         if (response.data.success) {
@@ -21,10 +20,8 @@ const ProductsContext = ({ children }) => {
       }
     };
 
-    // fetchProducts();
-  })
-  //)
-
+    fetchProducts();
+  }, []);
 
   return (
     <Products.Provider value={{ products, setProducts }}>
