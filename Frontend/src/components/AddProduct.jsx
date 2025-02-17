@@ -90,9 +90,10 @@ const AddProduct = () => {
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           >
-            <option value="Rifles">Rifles</option>
-            <option value="Shotguns">Shotguns</option>
-            <option value="Pistols">Pistols</option>
+            <option value="">Select a category</option>
+            <option value="rifles">Rifles</option>
+            <option value="shotguns">Shotguns</option>
+            <option value="pistols">Pistols</option>
           </select>
         </div>
 

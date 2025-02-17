@@ -15,8 +15,9 @@ const CategoryProducts = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                console.log('Fetching from:', `${API_BASE_URL}/api/products/category/${category}`);
-                const response = await axios.get(`${API_BASE_URL}/api/products/category/${category}`);
+                const lowercaseCategory = category.toLowerCase();
+                console.log('Fetching from:', `${API_BASE_URL}/api/products/category/${lowercaseCategory}`);
+                const response = await axios.get(`${API_BASE_URL}/api/products/category/${lowercaseCategory}`);
                 console.log('Response:', response.data);
 
                 if (response.data.success) {

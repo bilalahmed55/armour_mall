@@ -97,7 +97,7 @@ export const getProductsByCategory = async (req, res) => {
         }
 
         const products = await Product.find({
-            category: category  // Exact match instead of regex
+            category: category  
         });
 
         console.log(`Found ${products.length} products in category ${category}`);
