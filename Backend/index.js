@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     res.send("API is running")
 })
 app.use('/api/v1', AuthRouter);
-app.use('/api/products', ProductRouter);  // Make sure this route is mounted
+app.use('/api/products', ProductRouter);
 
 const PORT = process.env.PORT || 8000;
 

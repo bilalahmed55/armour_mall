@@ -228,7 +228,7 @@ const Header = () => {
                   )}
                 </NavLink>
               </li>
-              <li className="relative group">
+              {/* <li className="relative group">
                 <button className="text-white">Categories</button>
                 <div className="absolute hidden group-hover:block w-48 bg-gray-800">
                   <Link 
@@ -250,7 +250,7 @@ const Header = () => {
                     Pistols
                   </Link>
                 </div>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

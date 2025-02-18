@@ -1,10 +1,10 @@
-import { Product } from '../Models/Product.model.js';
+import { Product } from "../Models/Product.model.js";
 
+// Add a new product
 export const addProduct = async (req, res) => {
     try {
         const { name, image, description, price, category } = req.body;
 
-        // Validate required fields
         if (!name || !image || !description || !price || !category) {
             return res.status(400).json({
                 success: false,
@@ -12,7 +12,6 @@ export const addProduct = async (req, res) => {
             });
         }
 
-        // Convert price to number if it's a string
         const numericPrice = Number(price);
         if (isNaN(numericPrice)) {
             return res.status(400).json({
@@ -37,17 +36,7 @@ export const addProduct = async (req, res) => {
             product: newProduct
         });
     } catch (error) {
-        console.error('Error in addProduct:', error);
-
-        // Check for validation errors
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                success: false,
-                message: "Validation Error",
-                error: Object.values(error.errors).map(err => err.message)
-            });
-        }
-
+        console.error("Error in addProduct:", error);
         res.status(500).json({
             success: false,
             message: "Error adding product",
@@ -56,18 +45,23 @@ export const addProduct = async (req, res) => {
     }
 };
 
+// Fetch products with filtering
 export const getProducts = async (req, res) => {
     try {
-        console.log('Fetching all products...');
-        const products = await Product.find({});
-        console.log(`Found ${products.length} products`);
+        const { category, minPrice, maxPrice } = req.query;
+        let filter = {};
 
-        if (!products) {
-            return res.status(404).json({
-                success: false,
-                message: "No products found"
-            });
+        if (category) {
+            filter.category = category;
         }
+
+        if (minPrice || maxPrice) {
+            filter.price = {};
+            if (minPrice) filter.price.$gte = Number(minPrice);
+            if (maxPrice) filter.price.$lte = Number(maxPrice);
+        }
+
+        const products = await Product.find(filter);
 
         res.status(200).json({
             success: true,
@@ -75,7 +69,7 @@ export const getProducts = async (req, res) => {
             count: products.length
         });
     } catch (error) {
-        console.error('Error in getProducts:', error);
+        console.error("Error in getProducts:", error);
         res.status(500).json({
             success: false,
             message: "Error fetching products",
@@ -84,10 +78,10 @@ export const getProducts = async (req, res) => {
     }
 };
 
+// Fetch products by category (separate endpoint)
 export const getProductsByCategory = async (req, res) => {
     try {
         const { category } = req.params;
-        console.log('Searching for category:', category);
 
         if (!category) {
             return res.status(400).json({
@@ -96,11 +90,7 @@ export const getProductsByCategory = async (req, res) => {
             });
         }
 
-        const products = await Product.find({
-            category: category  
-        });
-
-        console.log(`Found ${products.length} products in category ${category}`);
+        const products = await Product.find({ category });
 
         res.status(200).json({
             success: true,
@@ -108,7 +98,7 @@ export const getProductsByCategory = async (req, res) => {
             count: products.length
         });
     } catch (error) {
-        console.error('Error in getProductsByCategory:', error);
+        console.error("Error in getProductsByCategory:", error);
         res.status(500).json({
             success: false,
             message: "Error fetching products",
