@@ -6,7 +6,8 @@ import axios from "axios";
 import { API_BASE_URL } from "../config/api";
 
 const Home = () => {
-  const { products } = useContext(Products);
+  //const context = useContext(Products);
+  //const { products } = context || {};  // Add fallback for context
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -53,23 +54,27 @@ const Home = () => {
   }, [searchQuery]);
 
   return (
-    <div>
+    <div className="container mx-auto px-4">
       <div className="mt-20 mb-10">
         <Slider />
       </div>
 
-      {/* Search, Category, and Price Filter Section */}
-      <div className="flex flex-wrap justify-center mb-6 gap-6">
-        <input
-          type="text"
-          placeholder="Search for a product..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="border p-2 rounded-lg w-80 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
+      {/* Search and Filters Section */}
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mb-6 px-4">
+        {/* Search Input */}
+        <div className="w-full sm:w-80">
+          <input
+            type="text"
+            placeholder="Search for a product..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full border p-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
 
-        <div>
-          <label htmlFor="category" className="block text-gray-700">
+        {/* Category Select */}
+        <div className="w-full sm:w-auto">
+          <label htmlFor="category" className="block text-gray-700 mb-1">
             Product Category
           </label>
           <select
@@ -77,7 +82,7 @@ const Home = () => {
             name="category"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full p-3 border rounded-lg"
+            className="w-full sm:w-48 p-2 border rounded-lg"
           >
             <option value="">All Categories</option>
             <option value="rifles">Rifles</option>
@@ -86,43 +91,44 @@ const Home = () => {
           </select>
         </div>
 
-        {/* Price Range Filter */}
-        <div>
-          <label className="block text-gray-700">Min Price</label>
-          <input
-            type="number"
-            placeholder="Min price"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className="border p-2 rounded-lg w-24 shadow-md"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700">Max Price</label>
-          <input
-            type="number"
-            placeholder="Max price"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="border p-2 rounded-lg w-24 shadow-md"
-          />
+        {/* Price Range Inputs */}
+        <div className="flex gap-4 w-full sm:w-auto">
+          <div className="flex-1 sm:flex-none">
+            <label className="block text-gray-700 mb-1">Min Price</label>
+            <input
+              type="number"
+              placeholder="Min"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="w-full sm:w-24 p-2 border rounded-lg shadow-md"
+            />
+          </div>
+          <div className="flex-1 sm:flex-none">
+            <label className="block text-gray-700 mb-1">Max Price</label>
+            <input
+              type="number"
+              placeholder="Max"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="w-full sm:w-24 p-2 border rounded-lg shadow-md"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Display Product Cards */}
+      {/* Products Grid */}
       {loading ? (
-        <div className="text-center text-gray-600">Loading...</div>
+        <div className="text-center text-gray-600 py-8">Loading...</div>
       ) : error ? (
-        <div className="text-center text-red-500">{error}</div>
+        <div className="text-center text-red-500 py-8">{error}</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 p-4">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))
           ) : (
-            <p className="text-center text-gray-600 col-span-full">
+            <p className="text-center text-gray-600 col-span-full py-8">
               {searchQuery || selectedCategory || minPrice || maxPrice
                 ? "No products found matching your criteria."
                 : "No products available."}

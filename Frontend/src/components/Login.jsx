@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
@@ -6,6 +6,7 @@ import { API_BASE_URL } from '../config/api';
 
 function Login() {
     const navigate = useNavigate();
+    const location = useLocation();
     const { setIsAuthenticated } = useAuth();
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({
@@ -22,11 +23,15 @@ function Login() {
                 email: formData.email,
                 password: formData.password,
             });
+
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('email', formData.email);
                 setIsAuthenticated(true);
-                navigate("/home");
+
+                // Redirect to root instead of /home
+                const from = location.state?.from?.pathname || "/";
+                navigate(from);
             } else {
                 setError(response.data.message);
             }

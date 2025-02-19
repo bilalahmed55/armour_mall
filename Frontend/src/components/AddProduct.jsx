@@ -40,7 +40,7 @@ const AddProduct = () => {
         // Wait for 3 seconds before navigating
         setTimeout(() => {
           setIsLoading(false);
-          navigate('/home');
+          navigate('/');
         }, 3000);
       }
     } catch (error) {
