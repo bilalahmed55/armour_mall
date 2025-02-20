@@ -23,7 +23,7 @@ export const signup = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({
-            message: "Internal server error",
+            message: "Sign Up Failed",
             success: false
         });
     }
@@ -35,14 +35,14 @@ export const login = async (req, res) => {
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(403).json({
-                message: "Auth failed",
+                message: "Sign In Failed",
                 success: false,
             });
         }
         const isPassEqual = await bcrypt.compare(password, user.password);
         if (!isPassEqual) {
             return res.status(403).json({
-                message: "Auth failed",
+                message: "Sign In Failed",
                 success: false,
             });
         }

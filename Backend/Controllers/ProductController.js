@@ -46,19 +46,32 @@ export const addProduct = async (req, res) => {
 };
 
 // Fetch products with filtering
+// Fetch products with filtering
 export const getProducts = async (req, res) => {
     try {
         const { category, minPrice, maxPrice } = req.query;
         let filter = {};
 
+        // Convert prices to numbers
+        const numericMinPrice = minPrice ? Number(minPrice) : null;
+        const numericMaxPrice = maxPrice ? Number(maxPrice) : null;
+
+        // Validate minPrice and maxPrice relationship
+        if (numericMinPrice !== null && numericMaxPrice !== null && numericMinPrice > numericMaxPrice) {
+            return res.status(400).json({
+                success: false,
+                message: "Min price cannot be greater than max price"
+            });
+        }
+
         if (category) {
             filter.category = category;
         }
 
-        if (minPrice || maxPrice) {
+        if (numericMinPrice !== null || numericMaxPrice !== null) {
             filter.price = {};
-            if (minPrice) filter.price.$gte = Number(minPrice);
-            if (maxPrice) filter.price.$lte = Number(maxPrice);
+            if (numericMinPrice !== null) filter.price.$gte = numericMinPrice;
+            if (numericMaxPrice !== null) filter.price.$lte = numericMaxPrice;
         }
 
         const products = await Product.find(filter);
@@ -77,6 +90,7 @@ export const getProducts = async (req, res) => {
         });
     }
 };
+
 
 // Fetch products by category (separate endpoint)
 export const getProductsByCategory = async (req, res) => {

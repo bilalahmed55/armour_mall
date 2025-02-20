@@ -6,8 +6,8 @@ import axios from "axios";
 import { API_BASE_URL } from "../config/api";
 
 const Home = () => {
-  //const context = useContext(Products);
-  //const { products } = context || {};  // Add fallback for context
+  const context = useContext(Products);
+  const { products } = context || { products: [] };
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -45,13 +45,16 @@ const Home = () => {
 
   // Handle search filter separately (client-side)
   useEffect(() => {
-    if (filteredProducts.length > 0) {
-      const searchFiltered = filteredProducts.filter(product =>
+    if (searchQuery === "") {
+      // Reset filtered products to the original products when search query is empty
+      setFilteredProducts(products);
+    } else {
+      const searchFiltered = products.filter(product =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredProducts(searchFiltered);
     }
-  }, [searchQuery]);
+  }, [searchQuery, products]);
 
   return (
     <div className="container mx-auto px-4">
@@ -64,7 +67,7 @@ const Home = () => {
         {/* Search Input */}
         <div className="w-full sm:w-auto">
           <label htmlFor="category" className="block mb-1 text-white">
-            Seach For Product
+            Search For Product
           </label>
           <div className="w-full sm:w-80">
             <input
@@ -104,6 +107,7 @@ const Home = () => {
               type="number"
               placeholder="Min"
               value={minPrice}
+              min="0"
               onChange={(e) => setMinPrice(e.target.value)}
               className="w-full sm:w-24 p-2 border rounded-lg shadow-md"
             />
@@ -114,6 +118,7 @@ const Home = () => {
               type="number"
               placeholder="Max"
               value={maxPrice}
+              min="0"
               onChange={(e) => setMaxPrice(e.target.value)}
               className="w-full sm:w-24 p-2 border rounded-lg shadow-md"
             />

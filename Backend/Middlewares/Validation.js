@@ -8,7 +8,7 @@ export const signupValidation = (req, res, next) => {
     });
     const { error } = schema.validate(req.body);
     if (error) {
-        return res.status(400).json({ message: "bad request", error });
+        return res.status(400).json({ message: "Email or Password is wrong", error });
     }
     next();
 };
@@ -20,7 +20,7 @@ export const loginValidation = (req, res, next) => {
     });
     const { error } = schema.validate(req.body);
     if (error) {
-        return res.status(400).json({ message: "bad request", error });
+        return res.status(400).json({ message: "Email or Password is wrong", error });
     }
     next();
 };
