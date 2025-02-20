@@ -62,6 +62,9 @@ const Home = () => {
       {/* Search and Filters Section */}
       <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mb-6 px-4">
         {/* Search Input */}
+        <label htmlFor="category" className="block mb-1 text-white">
+            Seach For Product
+          </label>
         <div className="w-full sm:w-80">
           <input
             type="text"
@@ -74,7 +77,7 @@ const Home = () => {
 
         {/* Category Select */}
         <div className="w-full sm:w-auto">
-          <label htmlFor="category" className="block text-gray-700 mb-1">
+          <label htmlFor="category" className="block text-white mb-1">
             Product Category
           </label>
           <select
@@ -94,7 +97,7 @@ const Home = () => {
         {/* Price Range Inputs */}
         <div className="flex gap-4 w-full sm:w-auto">
           <div className="flex-1 sm:flex-none">
-            <label className="block text-gray-700 mb-1">Min Price</label>
+            <label className="block text-white mb-1">Min Price</label>
             <input
               type="number"
               placeholder="Min"
@@ -104,7 +107,7 @@ const Home = () => {
             />
           </div>
           <div className="flex-1 sm:flex-none">
-            <label className="block text-gray-700 mb-1">Max Price</label>
+            <label className="block text-white mb-1">Max Price</label>
             <input
               type="number"
               placeholder="Max"
