@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { API_BASE_URL } from '../config/api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash, faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 
-function SIgnup() {
+function Signup() {
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const [formData, setFormData] = useState({
@@ -11,15 +13,20 @@ function SIgnup() {
         email: '',
         password: ''
     });
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/api/v1/signup`, formData);
+            const response = await axios.post(`${API_BASE_URL}/api/v1/signup`, {
+                email: formData.email,
+                password: formData.password,
+            });
+
             if (response.data.success) {
-                navigate("/login");
+                navigate('/login');
             } else {
                 setError(response.data.message);
             }
@@ -41,50 +48,77 @@ function SIgnup() {
                 <h1 className="text-white text-3xl mb-8">Sign Up</h1>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <form className="w-full" onSubmit={handleSubmit}>
+
+                    {/* Name Input */}
                     <div className="mb-4">
                         <label htmlFor="name" className="text-white block mb-2">Name</label>
-                        <input
-                            type="text"
-                            name='name'
-                            value={formData.name}
-                            onChange={handleChange}
-                            autoFocus
-                            placeholder='Enter your name'
-                            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <FontAwesomeIcon icon={faUser} />
+                            </span>
+                            <input
+                                type="text"
+                                name='name'
+                                value={formData.name}
+                                onChange={handleChange}
+                                autoFocus
+                                placeholder='Enter your name'
+                                className="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                            />
+                        </div>
                     </div>
+
+                    {/* Email Input */}
                     <div className="mb-4">
                         <label htmlFor="email" className="text-white block mb-2">Email</label>
-                        <input
-                            type="email"
-                            name='email'
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder='Enter your Email'
-                            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
+                        <div className="relative">
+                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                            </span>
+                            <input
+                                type="email"
+                                name='email'
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder='Enter your Email'
+                                className="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                            />
+                        </div>
                     </div>
+
+                    {/* Password Input */}
                     <div className="mb-6">
                         <label htmlFor="password" className="text-white block mb-2">Password</label>
-                        <input
-                            type="password"
-                            name='password'
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder='Enter your password'
-                            className="w-full px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                name='password'
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder='Enter your password'
+                                className="w-full pl-4 pr-10 py-2 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                            />
+                            <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            >
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-gray-400" />
+                            </span>
+                        </div>
                     </div>
+
                     <button
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
                     >
                         Sign Up
                     </button>
-                    <span className="text-white mt-4 block text-center">Already have an account?
+
+                    <span className="text-white mt-4 block text-center">
+                        Already have an account?
                         <Link to="/login" className="text-blue-500 hover:underline ml-1">Login</Link>
                     </span>
                 </form>
@@ -93,4 +127,4 @@ function SIgnup() {
     );
 }
 
-export default SIgnup;
+export default Signup;

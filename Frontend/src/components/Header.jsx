@@ -2,6 +2,8 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../features/CartSystem';
 
 const Header = () => {
   const { isAuthenticated, setIsAuthenticated } = useAuth();
@@ -11,12 +13,15 @@ const Header = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const dispatch = useDispatch();
+
   const userEmail = localStorage.getItem('email');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     setIsAuthenticated(false);
+    dispatch(clearCart()); // Clear the cart on logout
     navigate('/login');
   };
 

@@ -10,18 +10,53 @@ const AddProduct = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [name, setName] = useState('');
-  const [imgUrl, setImgurl] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState('');
 
+  const uploadImageToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'first_time_using_cloudinary');
+
+    try {
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/di8zmxjob/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+      return response.data.secure_url;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!selectedFile) {
+      alert('Please select an image');
+      return;
+    }
+
     setIsLoading(true);
+    const imageUrl = await uploadImageToCloudinary(selectedFile);
+
+    if (!imageUrl) {
+      setIsLoading(false);
+      alert('Image upload failed');
+      return;
+    }
 
     const newProduct = {
       name: name,
-      image: imgUrl,
+      image: imageUrl,
       description: desc,
       price: price,
       category: category
@@ -32,19 +67,18 @@ const AddProduct = () => {
       if (response.data.success) {
         setProducts([...products, response.data.product]);
         setName("");
-        setImgurl("");
         setDesc("");
         setPrice("");
         setCategory("");
+        setSelectedFile(null);
 
-        // Wait for 3 seconds before navigating
         setTimeout(() => {
           setIsLoading(false);
           navigate('/');
         }, 3000);
       }
     } catch (error) {
-      console.error("There was an error adding the product!", error);
+      console.error("Error adding product:", error);
       setIsLoading(false);
     }
   };
@@ -101,11 +135,15 @@ const AddProduct = () => {
         <div>
           <label htmlFor="image" className="block text-gray-700 dark:text-gray-300 text-left">Product Image</label>
           <input
-            type="url"
+            type="file"
             id="image"
             name="image"
             accept="image/*"
-            onChange={(e) => { setImgurl(e.target.value) }}
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                setSelectedFile(e.target.files[0]);
+              }
+            }}
             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
             required
           />
