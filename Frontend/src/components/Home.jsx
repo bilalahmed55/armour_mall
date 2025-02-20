@@ -62,17 +62,19 @@ const Home = () => {
       {/* Search and Filters Section */}
       <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 mb-6 px-4">
         {/* Search Input */}
-        <label htmlFor="category" className="block mb-1 text-white">
+        <div className="w-full sm:w-auto">
+          <label htmlFor="category" className="block mb-1 text-white">
             Seach For Product
           </label>
-        <div className="w-full sm:w-80">
-          <input
-            type="text"
-            placeholder="Search for a product..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full border p-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+          <div className="w-full sm:w-80">
+            <input
+              type="text"
+              placeholder="Search for a product..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full border p-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
         </div>
 
         {/* Category Select */}
