@@ -11,7 +11,8 @@ function Signup() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        password: ''
+        password: '',
+        role: ''
     });
     const [showPassword, setShowPassword] = useState(false);
 
@@ -23,6 +24,7 @@ function Signup() {
             const response = await axios.post(`${API_BASE_URL}/api/v1/signup`, {
                 email: formData.email,
                 password: formData.password,
+                role: formData.role
             });
 
             if (response.data.success) {
@@ -89,7 +91,7 @@ function Signup() {
                     </div>
 
                     {/* Password Input */}
-                    <div className="mb-6">
+                    <div className="mb-6 relative">
                         <label htmlFor="password" className="text-white block mb-2">Password</label>
                         <div className="relative">
                             <input
@@ -108,6 +110,22 @@ function Signup() {
                                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-gray-400" />
                             </span>
                         </div>
+                    </div>
+
+                    <div className="mb-6 flex flex-col items-center">
+                        <label htmlFor="role" className="text-white block mb-2 text-center">Role</label>
+                        <select
+                            id="role"
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                            className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                            required
+                        >
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
                     </div>
 
                     <button

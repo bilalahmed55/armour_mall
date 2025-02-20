@@ -46,7 +46,6 @@ export const addProduct = async (req, res) => {
 };
 
 // Fetch products with filtering
-// Fetch products with filtering
 export const getProducts = async (req, res) => {
     try {
         const { category, minPrice, maxPrice } = req.query;

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 export const signup = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
         const user = await User.findOne({ email });
         if (user) {
             return res
@@ -15,7 +15,7 @@ export const signup = async (req, res) => {
                 });
         }
         const hashedPassword = await bcrypt.hash(password, 12);
-        const newUser = new User({ name, email, password: hashedPassword });
+        const newUser = new User({ name, email, password: hashedPassword, role });
         await newUser.save();
         res.status(201).json({
             message: "Signup successful",
