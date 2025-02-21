@@ -12,7 +12,7 @@ function Signup() {
         name: '',
         email: '',
         password: '',
-        role: ''
+        role: 'user'
     });
     const [showPassword, setShowPassword] = useState(false);
 
@@ -115,7 +115,6 @@ function Signup() {
                     <div className="mb-6 flex flex-col items-center">
                         <label htmlFor="role" className="text-white block mb-2 text-center">Role</label>
                         <select
-                            id="role"
                             name="role"
                             value={formData.role}
                             onChange={handleChange}
