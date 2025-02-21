@@ -20,6 +20,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
+    localStorage.removeItem('role');
     setIsAuthenticated(false);
     dispatch(clearCart()); // Clear the cart on logout
     navigate('/login');

@@ -30,6 +30,7 @@ function Login() {
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('email', formData.email);
+                localStorage.setItem('role', response.data.user.role);
                 setIsAuthenticated(true);
 
                 // Redirect to root instead of /home

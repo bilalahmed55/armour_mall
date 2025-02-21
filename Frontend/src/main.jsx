@@ -34,7 +34,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<SIgnup />} />
       <Route path="addproduct" element={
-        <ProtectedRoute>
+        <ProtectedRoute requiredRole="admin">
           <AddProduct />
         </ProtectedRoute>
       } />

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -21,8 +20,6 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     }
 }, { timestamps: true });
-
-// Any existing pre-save hooks...
 
 const User = mongoose.model('User', userSchema);
 export default User;
