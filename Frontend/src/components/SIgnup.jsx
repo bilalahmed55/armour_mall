@@ -22,6 +22,7 @@ function Signup() {
 
         try {
             const response = await axios.post(`${API_BASE_URL}/api/v1/signup`, {
+                name: formData.name,
                 email: formData.email,
                 password: formData.password,
                 role: formData.role
@@ -121,7 +122,6 @@ function Signup() {
                             className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             required
                         >
-                            <option value="">Select Role</option>
                             <option value="admin">Admin</option>
                             <option value="user">User</option>
                         </select>
