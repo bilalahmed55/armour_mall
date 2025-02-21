@@ -1,4 +1,4 @@
-import  User  from "../Models/Users.model.js";
+import User from "../Models/Users.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -50,6 +50,7 @@ export const login = async (req, res) => {
             {
                 email: user.email,
                 id: user._id,
+                role: user.role
             },
             process.env.JWT_SECRET,
             {
@@ -61,7 +62,12 @@ export const login = async (req, res) => {
             message: "Login successful",
             success: true,
             token: jwtToken,
-            user: { id: user._id, name: user.name, email: user.email },
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            },
         });
     } catch (error) {
         res.status(500).json({
