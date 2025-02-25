@@ -1,9 +1,22 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeCart, increaseQuantity, decreaseQuantity } from '../features/CartSystem';
+import {
+    removeItemFromCart,
+    updateCartItemQuantity,
+    fetchCart
+} from '../features/CartSystem';
 
 const Cart = () => {
-    const cartItems = useSelector(state => state.name.cart);
+    const { cart: cartItems, loading } = useSelector(state => state.name);
+    const user = useSelector(state => state.user?.user); // Assuming you have user state
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        // Only fetch cart from server if user is logged in
+        if (user && user.token) {
+            dispatch(fetchCart());
+        }
+    }, [dispatch, user]);
 
     // Calculate cart totals
     const cartSummary = cartItems.reduce((summary, item) => {
@@ -12,6 +25,38 @@ const Cart = () => {
             totalValue: summary.totalValue + item.totalPrice
         };
     }, { totalQuantity: 0, totalValue: 0 });
+
+    // Handler for increasing quantity
+    const handleIncreaseQuantity = (item) => {
+        dispatch(updateCartItemQuantity({
+            id: item.id,
+            name: item.name,
+            quantity: item.quantity + 1
+        }));
+    };
+
+    // Handler for decreasing quantity
+    const handleDecreaseQuantity = (item) => {
+        if (item.quantity > 1) {
+            dispatch(updateCartItemQuantity({
+                id: item.id,
+                name: item.name,
+                quantity: item.quantity - 1
+            }));
+        }
+    };
+
+    // Handler for removing item
+    const handleRemoveItem = (item) => {
+        dispatch(removeItemFromCart({
+            id: item.id,
+            name: item.name
+        }));
+    };
+
+    if (loading) {
+        return <div className="max-w-6xl mx-auto p-6 mt-4 text-white">Loading cart...</div>;
+    }
 
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-8 mt-4">
@@ -30,20 +75,20 @@ const Cart = () => {
                             </div>
                             <div className="flex items-center space-x-4">
                                 <button
-                                    onClick={() => dispatch(decreaseQuantity({ id: item.id, name: item.name }))}
+                                    onClick={() => handleDecreaseQuantity(item)}
                                     className="bg-gray-200 p-2 rounded"
                                 >
                                     -
                                 </button>
                                 <span className="text-xl font-semibold text-white">{item.quantity}</span>
                                 <button
-                                    onClick={() => dispatch(increaseQuantity({ id: item.id, name: item.name }))}
+                                    onClick={() => handleIncreaseQuantity(item)}
                                     className="bg-gray-200 p-2 rounded"
                                 >
                                     +
                                 </button>
                                 <button
-                                    onClick={() => dispatch(removeCart({ id: item.id, name: item.name }))}
+                                    onClick={() => handleRemoveItem(item)}
                                     className="bg-red-500 text-white p-2 rounded"
                                 >
                                     Delete
@@ -63,7 +108,7 @@ const Cart = () => {
                                 </div>
                                 <div className="flex justify-between">
                                     <p className="text-white">Total Value:</p>
-                                    <p className="text-white font-semibold">${cartSummary.totalValue}</p>
+                                    <p className="text-white font-semibold">${cartSummary.totalValue.toFixed(2)}</p>
                                 </div>
                             </div>
                         </div>

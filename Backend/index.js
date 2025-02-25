@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 import connectDB from './Models/db.js';
 import bodyParser from 'body-parser';
 import AuthRouter from './Routes/AuthRouter.js';
-import ProductRouter from './Routes/ProductRouter.js'
+import ProductRouter from './Routes/ProductRouter.js';
+import CartRouter from './Routes/CartRouter.js'; // Import the new cart router
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 })
 app.use('/api/v1', AuthRouter);
 app.use('/api/products', ProductRouter);
+app.use('/api/cart', CartRouter); // Add cart routes
 
 const PORT = process.env.PORT || 8000;
 
